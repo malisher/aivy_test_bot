@@ -1,0 +1,33 @@
+networks:
+  backend:
+services:
+  api:
+    hostname: parking
+    container_name: parking
+    build: api/
+    environment:
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+    restart: always
+    ports:
+      - "9001:9001"
+    logging:
+      options:
+        max-size: 50m
+    networks:
+      - backend
+  telegram:
+    hostname: bot_cpu
+    container_name: bot_cpu
+    build: telegram/
+    environment:
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+      - PYTHONUNBUFFERED=1
+    restart: always
+    ipc: host
+    logging:
+      options:
+        max-size: 50m
+    networks:
+      - backend
